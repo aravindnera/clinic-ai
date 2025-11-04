@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Use Next.js runtime plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[template.environment]
+  NEXT_PUBLIC_PB_URL = "https://your-pocketbase.onrender.com"

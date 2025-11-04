@@ -1,0 +1,282 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "type": "auth",
+      "schema": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "role",
+          "type": "select",
+          "options": {
+            "maxSelect": 1,
+            "values": [
+              "admin",
+              "doctor",
+              "reception"
+            ]
+          }
+        },
+        {
+          "name": "clinic",
+          "type": "relation",
+          "options": {
+            "collectionId": "clinics",
+            "cascadeDelete": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "clinics",
+      "type": "base",
+      "schema": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "address",
+          "type": "text"
+        },
+        {
+          "name": "phone",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "patients",
+      "type": "base",
+      "schema": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "type": "text"
+        },
+        {
+          "name": "age",
+          "type": "number"
+        },
+        {
+          "name": "gender",
+          "type": "select",
+          "options": {
+            "maxSelect": 1,
+            "values": [
+              "Male",
+              "Female",
+              "Other"
+            ]
+          }
+        },
+        {
+          "name": "clinic",
+          "type": "relation",
+          "options": {
+            "collectionId": "clinics",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "notes",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "appointments",
+      "type": "base",
+      "schema": [
+        {
+          "name": "patient",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "patients",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "options": {
+            "values": [
+              "Scheduled",
+              "Completed",
+              "Cancelled"
+            ]
+          }
+        },
+        {
+          "name": "note",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "treatments",
+      "type": "base",
+      "schema": [
+        {
+          "name": "patient",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "patients",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "cost",
+          "type": "number"
+        },
+        {
+          "name": "performedOn",
+          "type": "date"
+        }
+      ]
+    },
+    {
+      "name": "invoices",
+      "type": "base",
+      "schema": [
+        {
+          "name": "patient",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "patients",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "paid",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "options": {
+            "values": [
+              "Pending",
+              "Paid",
+              "Partial"
+            ]
+          }
+        },
+        {
+          "name": "dueDate",
+          "type": "date"
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "type": "base",
+      "schema": [
+        {
+          "name": "invoice",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "invoices",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "paidOn",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type": "select",
+          "options": {
+            "values": [
+              "Cash",
+              "UPI",
+              "Card",
+              "Bank"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "xray_images",
+      "type": "base",
+      "schema": [
+        {
+          "name": "patient",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "patients",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "image",
+          "type": "file",
+          "required": true,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 5242880,
+            "mimeTypes": [
+              "image/png",
+              "image/jpeg"
+            ]
+          }
+        },
+        {
+          "name": "type",
+          "type": "select",
+          "options": {
+            "values": [
+              "IOPA",
+              "OPG",
+              "Lateral Ceph",
+              "Bitewing",
+              "Other"
+            ]
+          }
+        },
+        {
+          "name": "takenOn",
+          "type": "date"
+        }
+      ]
+    }
+  ]
+}
